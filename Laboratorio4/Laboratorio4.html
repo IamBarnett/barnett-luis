@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Dinámico</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      background-image: url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3);
+    }
+    main {
+      font-family: Arial, sans-serif;
+    }
+    input {
+      font-size: 1.2rem;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    span {
+      font-size: 1.5rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <label for="input-text">Escribe algo: </label>
+    <input type="text" id="input-text" placeholder="Escribe aquí...">
+    <p>Texto invertido: <span id="reversed-text"></span></p>
+  </main>
+
+  <script>
+    const inputText = document.querySelector('#input-text');
+    const reversedText = document.querySelector('#reversed-text');
+
+    inputText.addEventListener('input', function() {
+      // Invertir el texto mientras se escribe
+      reversedText.textContent = inputText.value.split('').reverse().join('');
+    });
+  </script>
+</body>
+</html>
