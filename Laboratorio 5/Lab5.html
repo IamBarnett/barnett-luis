@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio #4</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Sombreado para mayor legibilidad */
+      z-index: -1;
+    }
+
+    main {
+      width: 50%;
+      max-width: 600px;
+    }
+    section {
+      background-color: rgba(165, 42, 42, 0.8); /* Color marrón con opacidad */
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border: 2px solid #66afe9;
+    }
+    .response-wrapper {
+      background-color: rgba(95, 158, 160, 0.8); /* Color cadetblue con opacidad */
+      padding: 20px;
+      border-radius: 8px;
+    }
+    #response-wrapper.response-wrapper.response-wrapper2 {
+      background-color: rgba(139, 0, 139, 0.8); /* Color darkmagenta con opacidad */
+    }
+    #response-wrapper {
+      background-color: rgba(31, 36, 24, 0.8); /* Color RGB con opacidad */
+      padding: 20px;
+      border-radius: 8px;
+      color: white;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <form id="text-form">
+        <label for="cadena">Cadena:</label>
+        <input type="text" name="cadena" id="cadena" placeholder="Escribe aquí...">
+        <label for="color-select">Seleccionar Color:</label>
+        <select id="color-select">
+          <option value="white">Blanco</option>
+          <option value="blue">Azul</option>
+          <option value="gray">Gris</option>
+          <option value="red">Rojo</option>
+          <option value="green">Verde</option>
+          <option value="black">Negro</option>
+        </select>
+      </form>
+    </section>
+    <section class="response-wrapper response-wrapper2">
+      <div id="response-wrapper">
+        <div id="response">Texto invertido aparecerá aquí...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Selección de elementos del DOM
+    const inputCadena = document.querySelector('#cadena');
+    const responseDiv = document.querySelector('#response');
+    const colorSelect = document.querySelector('#color-select');
+
+    // Evento para invertir el texto y actualizar el contenido dinámicamente
+    inputCadena.addEventListener('input', function() {
+      const text = inputCadena.value;
+      const reversedText = text ? text.split('').reverse().join('') : 'Texto invertido aparecerá aquí...';
+      responseDiv.textContent = reversedText;
+    });
+
+    // Evento para cambiar solo el color del texto en el contenedor de respuesta
+    colorSelect.addEventListener('change', function() {
+      const selectedColor = colorSelect.value;
+      responseDiv.style.color = selectedColor; // Cambia el color del texto invertido
+    });
+  </script>
+</body>
+</html>
