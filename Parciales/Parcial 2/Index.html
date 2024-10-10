@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Números Pseudo-Aleatorios</title>
+    <style>
+        /* Reset de márgenes y paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo del cuerpo de la página */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1; /* Gris claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            padding: 100px;
+            border: 2px solid #3498db; /* Azul */
+            border-radius: 10px;
+            background: #bdc3c7; /* Fondo gris */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 400px; /* Ancho del cuadro */
+        }
+
+        /* Título */
+        h1 {
+            color: #ffffff; /* Blanco */
+            margin-bottom: 25px;
+        }
+
+        /* Controles (botones) */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        /* Estilo de los botones */
+        .controls button {
+            background: #2980b9; /* Azul más oscuro */
+            border: none;
+            color: #fff; /* Texto blanco */
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        /* Efecto hover para los botones */
+        .controls button:hover {
+            background: #1c6691; /* Azul más oscuro para hover */
+        }
+
+        /* Contenedor de números usando CSS Grid */
+        .numbers {
+            display: grid;
+            grid-template-columns: repeat(5, 60px); /* 5 columnas */
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        /* Estilo de cada número */
+        .number {
+            background: #16a085; /* Verde oscuro */
+            color: #fff; /* Texto blanco */
+            padding: 20px;
+            font-size: 1.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Mensaje de error */
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Números</h1>
+        <div class="controls">
+            <button id="asc">Ascendente</button>
+            <button id="desc">Descendente</button>
+            <button id="generar">Generar</button>
+        </div>
+        <div id="numberContainer" class="numbers"></div>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <script>
+        (function() {
+            // Obtener referencias a los elementos del DOM
+            const generarBtn = document.getElementById("generar");
+            const ascBtn = document.getElementById("asc");
+            const descBtn = document.getElementById("desc");
+            const numberContainer = document.getElementById("numberContainer");
+            const errorMessage = document.getElementById("errorMessage");
+            
+            // Array para almacenar los números generados
+            let numbers = [];
+
+            const generarNumero = () => {
+                let num;
+                do {
+                    num = Math.floor(Math.random() * 99) + 1;
+                } while (numbers.includes(num));
+                return num.toString().padStart(2, '0');
+            };
+
+            const actualizarVista = () => {
+                numberContainer.innerHTML = numbers.map(num => `<div class="number">${num}</div>`).join('');
+            };
+
+            const mostrarError = msg => {
+                errorMessage.textContent = msg;
+                setTimeout(() => errorMessage.textContent = '', 3000);
+            };
+
+            const ordenar = (asc = true) => {
+                numbers.sort((a, b) => asc ? a - b : b - a);
+                actualizarVista();
+            };
+
+            // Event Listeners
+            generarBtn.addEventListener("click", () => {
+                if (numbers.length < 99) {
+                    const nuevoNumero = generarNumero();
+                    numbers.push(nuevoNumero);
+                    actualizarVista();
+                } else {
+                    mostrarError("Se han generado todos los números posibles.");
+                }
+            });
+
+            ascBtn.addEventListener("click", () => ordenar(true));
+            descBtn.addEventListener("click", () => ordenar(false));
+        })();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
