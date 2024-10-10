@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Votación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            border: 2px solid orange;
+            padding: 20px;
+            background: #fff;
+            width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .input-section, .candidate-section, .chart-section {
+            border: 1px solid orange;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .input-section input, .input-section select, .input-section button {
+            margin: 5px 0;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .candidate-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .candidate-item button {
+            margin-left: 10px;
+        }
+
+        .chart-container {
+            display: flex;
+            width: 100%;
+            height: 50px; 
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .chart-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <input type="text" id="candidateName" placeholder="Nombre del candidato">
+            <select id="candidateColor">
+                <option value="#FF5733">Rojo</option>
+                <option value="#33FF57">Verde</option>
+                <option value="#3357FF">Azul</option>
+                <option value="#FFD700">Amarillo</option>
+                <option value="#8A2BE2">Púrpura</option>
+            </select>
+            <button onclick="addCandidate()">Agregar</button>
+        </div>
+
+        <div class="candidate-section">
+            <h3>Lista de Candidatos</h3>
+            <div id="candidateList">
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h3>Gráfico de Votos</h3>
+            <div class="chart-container" id="chartContainer">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let candidates = [];
+
+        function addCandidate() 
+        {
+            const name = document.getElementById('candidateName').value;
+            const color = document.getElementById('candidateColor').value;
+
+            if (name && !candidates.some(candidate => candidate.name === name)) 
+            { 
+                candidates.push({ name, color, points: 0 });
+                document.getElementById('candidateName').value = ''; 
+                renderCandidates();
+                renderChart();
+            } else {
+                alert("Por favor ingresa un nombre válido o que no esté repetido.");
+            }
+        }
+
+        function voteCandidate(index) 
+        {
+            candidates[index].points += 1;
+            renderCandidates();
+            renderChart();
+        }
+
+        function removeCandidate(index) 
+        {
+            candidates.splice(index, 1);
+            renderCandidates();
+            renderChart();
+        }
+
+        function renderCandidates() 
+        {
+            const candidateList = document.getElementById('candidateList');
+            candidateList.innerHTML = '';
+
+            candidates.forEach((candidate, index) => {
+                candidateList.innerHTML += `
+                    <div class="candidate-item">
+                        <span>${candidate.name}</span>
+                        <span>${candidate.points}</span>
+                        <span style="background-color: ${candidate.color}; width: 20px; height: 20px; display: inline-block;"></span>
+                        <button onclick="voteCandidate(${index})">Votar</button>
+                        <button onclick="removeCandidate(${index})">Eliminar</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderChart() 
+        {
+            const chartContainer = document.getElementById('chartContainer');
+            chartContainer.innerHTML = '';
+
+            const totalPoints = candidates.reduce((sum, candidate) => sum + candidate.points, 0);
+
+            candidates.forEach(candidate => {
+                const percentage = totalPoints ? (candidate.points / totalPoints) * 100 : 0;
+
+                const segment = document.createElement('div');
+                segment.className = 'chart-segment';
+                segment.style.width = `${percentage}%`;
+                segment.style.backgroundColor = candidate.color;
+                segment.textContent = `${candidate.name} (${percentage.toFixed(2)}%)`;
+
+                chartContainer.appendChild(segment);
+            });
+        }
+    </script>
+</body>
+</html>
+
